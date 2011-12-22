@@ -1,28 +1,26 @@
 module Doonan
   class Generator
-    def initialize(path)
-      @path = path
+    def initialize(templates_path)
+      @templates_path = templates_path
     end
     
-    def generate(target_path)
-      require 'erb'
-      require 'tilt'
-      require 'sass'
-      require 'ostruct'
-
-      scope = OpenStruct.new(:hello_world_color => 'blue')
-      template_path = File.join(@path, 'foo.css.scss.erb')
-      output = File.read(template_path)
-      filename_parts = File.basename(template_path).split('.')
-      output_filename = filename_parts.slice(0...2).join('.')
-      extensions_to_process = filename_parts.slice(2..-1).reverse
-      extensions_to_process.each do |extension|
-        template = Tilt[extension].new { |template| output }
-        output = template.render(scope)
+    def templates
+      @templates ||= begin
+        Dir["#{@templates_path}/*"].map do |dir_entry|
+          Doonan::Template.new(dir_entry)
+        end
       end
-      FileUtils.mkdir_p(target_path)
-      File.open(File.join(target_path, output_filename), 'w') do |f|
-        f.puts output
+    end
+    
+    def generate(input_path, output_path)
+      input = Doonan::Input.new(input_path)
+      FileUtils.mkdir_p(output_path)
+      templates.each do |template|
+        output = template.render(input.scope)
+        render_output_path = File.join(output_path, template.output_filename)
+        File.open(render_output_path, 'w') do |f|
+          f.puts output
+        end
       end
     end
   end

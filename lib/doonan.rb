@@ -1,5 +1,7 @@
 require "doonan/version"
 require "doonan/generator"
+require "doonan/input"
+require "doonan/template"
 
 module Doonan
   def create_from_directory(path)
