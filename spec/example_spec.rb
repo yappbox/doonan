@@ -20,7 +20,9 @@ describe "example output" do
   it "should embed the icon" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
-    parser.find_by_selector('.icon1').should == ['background-image: url();']
+    parser.find_by_selector('.icon1').should == ["background-image: url('data:image/jpeg;"]
+    # TODO: the above assertion is lame because CssParser is lame. We should
+    # either change parsers or add an additional check
   end
   
   it "should not include css the missing icon" do

@@ -1,8 +1,3 @@
-.hello {
-  .world {
-    color: <%= hello_world_color %>;
-  }
-}
 .icon1 {
   <% if has_image_icon_1? %>
     background-image:inline-image('<%= image_path_icon_1 %>')
@@ -13,4 +8,9 @@
   <% if has_image_icon_2? %>
     background-image:inline-image('<%= image_path_icon_2 %>')
   <% end %>
+}
+.hello {
+  .world {
+    color: <%= hello_world_color %>;
+  }
 }

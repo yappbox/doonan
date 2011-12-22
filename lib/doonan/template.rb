@@ -1,6 +1,10 @@
 require 'erb'
 require 'tilt'
 require 'sass'
+require 'compass'
+
+Sass::Engine::DEFAULT_OPTIONS[:load_paths].concat(Compass.sass_engine_options[:load_paths])
+Compass.configuration.images_path = 'images'
 
 module Doonan
   class Template
