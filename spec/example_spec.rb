@@ -5,6 +5,7 @@ describe "example output" do
   before :all do
     @example_path = File.expand_path('../example', __FILE__)
     @out_path = File.expand_path('../../tmp/example-output', __FILE__)
+    FileUtils.rm_rf(@out_path)
     doonan = Doonan.create_from_directory(@example_path)
     doonan.generate(@out_path)
   end
