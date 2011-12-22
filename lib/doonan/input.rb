@@ -1,21 +1,15 @@
+require 'json'
 require 'ostruct'
 
 module Doonan
   class Input
     def initialize(path)
-      @path = path
+      images_path = File.join(path, 'images')
+      settings_path = File.join(path, 'settings.json')
+      settings = JSON.parse(File.read(settings_path))
+      @scope = OpenStruct.new(settings)
     end
-    
-    def images_path
-      
-    end
-    
-    def settings
-      
-    end
-    
-    def scope
-      OpenStruct.new(:hello_world_color => 'blue')
-    end
+
+    attr_reader :scope
   end
 end
