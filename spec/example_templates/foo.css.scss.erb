@@ -4,13 +4,13 @@
   }
 }
 .icon1 {
-  <% if has_image_icon_1 %>
+  <% if has_image_icon_1? %>
     background-image:inline-image('<%= image_path_icon_1 %>')
   <% end %>
 }
 
 .icon2 {
-  <% if has_image_icon_2 %>
+  <% if has_image_icon_2? %>
     background-image:inline-image('<%= image_path_icon_2 %>')
   <% end %>
 }
