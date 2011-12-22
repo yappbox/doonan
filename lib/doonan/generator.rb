@@ -8,9 +8,10 @@ module Doonan
     
     def generate(input_path, output_path, extensions)
       input = Doonan::Input.new(input_path)
-      staging_output_path = File.join(output_path, "tmp")
-      FileUtils.mkdir_p(staging_output_path)
-      FileUtils.cp_r(Dir["#{@templates_path}/*"], staging_output_path)
+      FileUtils.mkdir_p(output_path)
+      staging_output_path = File.join(output_path, "tmp-staging")
+      FileUtils.rm_rf(staging_output_path)
+      FileUtils.cp_r(@templates_path, staging_output_path)
       FileUtils.cd(input_path) do
         extensions.each_with_index do |extension|
           pass_templates = templates(staging_output_path, extension)
@@ -24,13 +25,13 @@ module Doonan
           end
         end
       end
-      FileUtils.cp_r(Dir["#{staging_output_path}/*"], output_path)
+      FileUtils.cp_r("#{staging_output_path}/.", output_path)
       # FileUtils.rm_rf(staging_output_path)
     end
     
     def templates(templates_path, extension)
-      Dir["#{templates_path}/**/*.#{extension}"].map do |dir_entry|
-        Doonan::Template.new(dir_entry)
+      Dir["#{templates_path}/**/*.#{extension}"].map do |template_path|
+        Doonan::Template.new(template_path)
       end
     end
   

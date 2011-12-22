@@ -7,18 +7,21 @@ module Doonan
   class Template
     def initialize(template_path)
       @template_path = template_path
-      filename_parts = File.basename(template_path).split('.')
-      @output_filename = filename_parts.slice(0...2).join('.')
-      @extensions_to_process = filename_parts.slice(2..-1).reverse
+      @extension = File.extname(template_path)
+      @output_filename = File.basename(template_path).chomp(@extension)
+      @template_class = Tilt[@extension]
+      if @template_class == Tilt::SassTemplate
+        debugger
+        @template_class.options[:load_path]
+      end
     end
     
     attr_reader :template_path
     attr_reader :output_filename
     
     def render(scope)
-      debugger
       template_source = File.read(@template_path)
-      t = Tilt[@extensions_to_process.first].new { |template| template_source }
+      t = @template_class.new { |template| template_source }
       t.render(scope)
     end
   end
