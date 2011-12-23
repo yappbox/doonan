@@ -1,6 +1,7 @@
 require "doonan/version"
 require "doonan/generator"
 require "doonan/input"
+require "doonan/render_session"
 require "doonan/template"
 
 module Doonan

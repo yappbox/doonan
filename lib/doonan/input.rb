@@ -4,11 +4,13 @@ require 'ostruct'
 module Doonan
   class Input
     def initialize(path)
+      @images_path = File.join(path, 'images')
       @scope = scope_struct_from_json(File.join(path, 'settings.json'))
-      enhance_scope_with_images_info(File.join(path, 'images'))
+      enhance_scope_with_images_info(@images_path)
     end
 
     attr_reader :scope
+    attr_reader :images_path
 
   private
     

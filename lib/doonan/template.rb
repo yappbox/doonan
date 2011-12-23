@@ -19,6 +19,13 @@ module Doonan
       template.render(scope)
     end
     
+    def replace_with_rendered_output(scope)
+      File.open(output_filename, 'w') do |f|
+        f.puts render(scope)
+      end
+      FileUtils.rm(template_path)
+    end
+    
   private
     
     def template
