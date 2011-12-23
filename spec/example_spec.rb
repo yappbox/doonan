@@ -1,6 +1,8 @@
 require File.expand_path('../spec_helper', __FILE__)
 require 'doonan'
 
+# Doonan.logger.level = Logger::DEBUG
+
 describe "example output" do
   before :all do
     templates_path = File.expand_path('../example_templates', __FILE__)

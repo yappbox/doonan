@@ -3,10 +3,19 @@ require "doonan/generator"
 require "doonan/input"
 require "doonan/render_session"
 require "doonan/template"
+require "logger"
 
 module Doonan
-  def create_from_directory(path)
-    Doonan::Generator.new(path)
+  def logger
+    @logger ||= begin
+      logger = Logger.new(STDOUT)
+      logger.level = Logger::WARN
+      logger
+    end
   end
-  module_function :create_from_directory
+  
+  def logger=(logger)
+    @logger = logger
+  end
+  module_function :logger, :logger=
 end

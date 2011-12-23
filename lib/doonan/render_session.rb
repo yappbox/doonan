@@ -1,6 +1,8 @@
 module Doonan
   class RenderSession
     def initialize(input, output_path, templates_path, extensions)
+      Doonan.logger.debug "Initializing render session with scope: #{input.scope.inspect}"
+      
       @input = input
       @output_path = output_path
       @templates_path = templates_path
