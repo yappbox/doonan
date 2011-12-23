@@ -56,7 +56,11 @@ module Doonan
     end
     
     def update_output_path
-      FileUtils.cp_r("#{staging_directory}/.", @output_path)
+      Dir["#{staging_directory}/*"].each do |staging_entry|
+        next if Dir.exists?(staging_entry)
+        next if File.basename(staging_entry) =~ /^_/
+        FileUtils.cp(staging_entry, @output_path)
+      end
     end
     
     def templates_for(extension)

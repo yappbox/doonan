@@ -60,6 +60,10 @@ describe "example output" do
     parser.find_by_selector('.bazzy .world').should == ['color: white;']
   end
   
+  it "should not copy over partials" do
+    File.exists?(File.join(@out_path, "_bay.scss")).should be_false
+  end
+  
   describe "Input" do
     it "should include json properties in the scope" do
       input = Doonan::Input.new(@input_path)
