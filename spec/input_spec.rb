@@ -35,4 +35,11 @@ describe "Input" do
     input.scope.image_lists.foo[0].slug.should == 'gallery'
     input.scope.image_lists.foo[0].path.should == 'foo/gallery.png'
   end
+
+  it "should perform substitutions" do
+    input = Doonan::Input.new(@input_path)
+    scope = input.scope
+    scope.hello_world_color.should == scope.my_blue
+    scope.my_list[1].border.should == "5px #{scope.border_style} #{scope.my_blue}"
+  end
 end
