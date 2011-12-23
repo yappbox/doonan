@@ -51,7 +51,7 @@ module Doonan
     end
     
     def get_image_struct(image_path)
-      OpenStruct.new(:name => get_slug(image_path), :path => image_path)
+      OpenStruct.new(:slug => get_slug(image_path), :path => image_path)
     end
   end
 end
