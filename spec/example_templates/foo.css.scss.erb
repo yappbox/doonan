@@ -21,6 +21,16 @@
     color: <%= hello_world_color %>;
   }
 }
+<% my_list.each do |item| %>
+  .<%= item.slug %> {
+    position: absolute;
+    top: <%= item.frame.top %>;
+    left: <%= item.frame.left %>;
+    width: <%= item.frame.width %>;
+    height: <%= item.frame.height %>;
+    color: <%= item.color %>;
+  }
+<% end %>
 @import "bay";
 @import "shared/bar";
 @import "shared/baz";
