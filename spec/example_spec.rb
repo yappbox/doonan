@@ -40,13 +40,19 @@ describe "example output" do
     parser.find_by_selector('.icon2').should == []
   end
   
-  it "should handle partial templates with multiple passes" do
+  it "should handle sibling partial templates" do
+    parser = CssParser::Parser.new
+    parser.load_file!('foo.css', @out_path)
+    parser.find_by_selector('.bayseian .filter').should == ['color: blue;']
+  end
+
+  it "should handle nested partial templates with multiple passes" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.bar .world').should == ['color: blue;']
   end
 
-  it "should handle partial templates" do
+  it "should handle nested partial templates without multiple passes" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.bazzy .world').should == ['color: white;']

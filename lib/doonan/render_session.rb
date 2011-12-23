@@ -58,7 +58,7 @@ module Doonan
     end
     
     def templates_for(extension)
-      Dir["#{staging_directory}/**/*.#{extension}"].map do |template_path|
+      Dir["#{staging_directory}/**/*.*.#{extension}"].map do |template_path|
         Doonan::Template.new(template_path, load_paths)
       end
     end
