@@ -4,11 +4,20 @@ require 'ostruct'
 module Doonan
   class Input
     def initialize(path)
-      images_path = File.join(path, 'images')
-      settings_path = File.join(path, 'settings.json')
-      settings = JSON.parse(File.read(settings_path))
-      @scope = OpenStruct.new(settings)
+      @scope = scope_struct_from_json(File.join(path, 'settings.json'))
+      enhance_scope_with_images_info(File.join(path, 'images'))
+    end
 
+    attr_reader :scope
+
+  private
+    
+    def scope_struct_from_json(settings_path)
+      settings = JSON.parse(File.read(settings_path))
+      OpenStruct.new(settings)
+    end
+    
+    def enhance_scope_with_images_info(images_path)
       FileUtils.cd(images_path) do
         Dir["*"].each do |images_dir_entry|
           if Dir.exists?(images_dir_entry)
@@ -19,11 +28,7 @@ module Doonan
         end
       end
     end
-
-    attr_reader :scope
-
-  private
-
+    
     def add_image_to_scope(image_path)
       image_slug = get_slug(image_path)
       @scope.send("has_image_#{image_slug}?=".to_sym, true)
