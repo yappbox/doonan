@@ -64,10 +64,15 @@ describe "example output" do
       input.scope.has_image_icon_2?.should == nil
     end
     
+    it "should include the image info in the scope" do
+      input = Doonan::Input.new(@input_path)
+      input.scope.image_icon_1.path.should == 'icon_1.jpg'
+    end
+    
     it "should include info about image paths in the scope" do
       input = Doonan::Input.new(@input_path)
-      input.scope.image_path_icon_1.should == 'icon_1.jpg'
-      input.scope.image_path_icon_2.should == nil
+      input.scope.image_icon_1.path.should == 'icon_1.jpg'
+      input.scope.image_icon_2.should == nil
     end
 
     it "should include info about image lists in the scope" do
