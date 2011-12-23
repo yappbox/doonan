@@ -9,6 +9,13 @@
     background-image:inline-image('<%= image_path_icon_2 %>')
   <% end %>
 }
+<% if has_foo_image_list? %>
+  <% foo_images.each do |image| %>
+    .foo_<%= image.name %> {
+      background-image:inline-image('<%= image.path %>')
+    }
+  <% end %>
+<% end %>
 .hello {
   .world {
     color: <%= hello_world_color %>;
