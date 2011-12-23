@@ -1,16 +1,16 @@
 .icon1 {
-  <% if has_image_icon_1? %>
-    background-image:inline-image('<%= image_icon_1.path %>')
+  <% if images.icon_1? %>
+    background-image:inline-image('<%= images.icon_1.path %>')
   <% end %>
 }
 
 .icon2 {
-  <% if has_image_icon_2? %>
-    background-image:inline-image('<%= image_icon_2.path %>')
+  <% if images.icon_2? %>
+    background-image:inline-image('<%= images.icon_2.path %>')
   <% end %>
 }
-<% if has_foo_image_list? %>
-  <% foo_images.each do |image| %>
+<% if image_lists.foo? %>
+  <% image_lists.foo.each do |image| %>
     .foo_<%= image.slug %> {
       background-image:inline-image('<%= image.path %>')
     }

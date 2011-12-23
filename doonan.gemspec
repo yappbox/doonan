@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency('tilt', '>= 1.3.3')
   gem.add_dependency('sass', '>= 3.1')
   gem.add_dependency('compass', '>= 0.11.5')
+  gem.add_dependency('hashie', '>= 1.2.0')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('css_parser')
   gem.add_development_dependency('ruby-debug19')

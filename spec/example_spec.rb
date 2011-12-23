@@ -12,13 +12,13 @@ describe "example output" do
     doonan = Doonan::Generator.new(templates_path)
     doonan.generate(@input_path, @out_path, ['erb', 'scss'])
   end
-  
+
   it "should output the hello world color" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.hello .world').should == ['color: blue;']
   end
-  
+
   it "should embed the icon" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
@@ -35,13 +35,13 @@ describe "example output" do
     # TODO: the above assertion is lame because CssParser is lame. We should
     # either change parsers or add an additional check
   end
-  
+
   it "should not include css the missing icon" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.icon2').should == []
   end
-  
+
   it "should handle sibling partial templates" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
@@ -59,40 +59,8 @@ describe "example output" do
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.bazzy .world').should == ['color: white;']
   end
-  
+
   it "should not copy over partials" do
     File.exists?(File.join(@out_path, "_bay.scss")).should be_false
-  end
-  
-  describe "Input" do
-    it "should include json properties in the scope" do
-      input = Doonan::Input.new(@input_path)
-      input.scope.hello_world_color.should == 'blue'
-    end
-    
-    it "should include info about image presence in the scope" do
-      input = Doonan::Input.new(@input_path)
-      input.scope.has_image_icon_1?.should == true
-      input.scope.has_image_icon_2?.should == nil
-    end
-    
-    it "should include the image info in the scope" do
-      input = Doonan::Input.new(@input_path)
-      input.scope.image_icon_1.path.should == 'icon_1.jpg'
-    end
-    
-    it "should include info about image paths in the scope" do
-      input = Doonan::Input.new(@input_path)
-      input.scope.image_icon_1.path.should == 'icon_1.jpg'
-      input.scope.image_icon_2.should == nil
-    end
-
-    it "should include info about image lists in the scope" do
-      input = Doonan::Input.new(@input_path)
-      input.scope.has_foo_image_list?.should == true
-      input.scope.foo_images.size.should == 2
-      input.scope.foo_images[0].slug.should == 'gallery'
-      input.scope.foo_images[0].path.should == 'foo/gallery.png'
-    end
   end
 end
