@@ -15,16 +15,7 @@ module Doonan
   private
     def scope_struct_from_json(settings_path)
       settings = JSON.parse(File.read(settings_path))
-      pattern, variables = get_variables(settings)
-      transform_values(settings) do |value|
-        if value.class == String
-          value.gsub(pattern) do |match|
-            variables[match]
-          end
-        else
-          value
-        end
-      end
+      perform_substitutions(settings)
       Hashie::Mash.new(settings)
     end
 
@@ -42,19 +33,18 @@ module Doonan
       end
     end
 
-    def get_variables(json_object)
-      variables = {}
-      names = []
-      json_object.delete_if do |key, value|
-        if key =~ /^\$(\w+)/
-          names << $1
-          variables[key] = value.to_s
-          true
+    VARIABLE = /\$(\w+)/
+    LEADING_DOLLAR = /\A\$/
+    def perform_substitutions(settings)
+      transform_values(settings) do |value|
+        if value.is_a? String
+          value.gsub(VARIABLE) do |name|
+            settings[name.gsub(LEADING_DOLLAR,'')]
+          end
         else
-          false
+          value
         end
       end
-      [Regexp.new("\\$(#{names.join('|')})"), variables]
     end
 
     def transform_values(json_object, &block)

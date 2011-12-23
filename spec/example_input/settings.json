@@ -1,6 +1,6 @@
 {
-  "$my_blue": "#00C",
-  "$border_style": "solid",
+  "my_blue": "#00C",
+  "border_style": "solid",
   "hello_world_color": "$my_blue",
   "my_list": [
     {
