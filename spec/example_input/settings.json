@@ -1,5 +1,7 @@
 {
-  "hello_world_color": "blue",
+  "$my_blue": "#00C",
+  "$border_style": "solid",
+  "hello_world_color": "$my_blue",
   "my_list": [
     {
       "slug": "foo",
@@ -13,7 +15,8 @@
     },
     {
       "slug": "bar",
-      "color": "green",
+      "color": "$my_blue",
+      "border": "5px $border_style $my_blue",
       "frame": {
         "top": "0",
         "left": "-5px",

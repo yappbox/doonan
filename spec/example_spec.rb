@@ -16,7 +16,7 @@ describe "example output" do
   it "should output the hello world color" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
-    parser.find_by_selector('.hello .world').should == ['color: blue;']
+    parser.find_by_selector('.hello .world').should == ['color: #00C;']
   end
 
   it "should embed the icon" do
@@ -45,19 +45,26 @@ describe "example output" do
   it "should handle sibling partial templates" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
-    parser.find_by_selector('.bayseian .filter').should == ['color: blue;']
+    parser.find_by_selector('.bayseian .filter').should == ['color: #00C;']
   end
 
   it "should handle nested partial templates with multiple passes" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
-    parser.find_by_selector('.bar .world').should == ['color: blue;']
+    parser.find_by_selector('.bar .world').should == ['color: #00C;']
   end
 
   it "should handle nested partial templates without multiple passes" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
     parser.find_by_selector('.bazzy .world').should == ['color: white;']
+  end
+
+  it "should handle deep update of scope from json" do
+    parser = CssParser::Parser.new
+    parser.load_file!('foo.css', @out_path)
+    parser.find_by_selector('.foo').should == ['position: absolute; top: 10px; left: 20px; width: 100px; height: 50px; color: red;']
+    parser.find_by_selector('.bar').should == ['position: absolute; top: 0; left: -5px; width: 200px; height: 150px; color: #00C;']
   end
 
   it "should not copy over partials" do

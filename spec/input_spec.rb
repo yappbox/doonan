@@ -8,7 +8,7 @@ describe "Input" do
 
   it "should include json properties in the scope" do
     input = Doonan::Input.new(@input_path)
-    input.scope.hello_world_color.should == 'blue'
+    input.scope.hello_world_color.should == '#00C'
   end
 
   it "should include info about image presence in the scope" do

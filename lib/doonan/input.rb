@@ -15,6 +15,16 @@ module Doonan
   private
     def scope_struct_from_json(settings_path)
       settings = JSON.parse(File.read(settings_path))
+      pattern, variables = get_variables(settings)
+      transform_values(settings) do |value|
+        if value.class == String
+          value.gsub(pattern) do |match|
+            variables[match]
+          end
+        else
+          value
+        end
+      end
       Hashie::Mash.new(settings)
     end
 
@@ -29,6 +39,40 @@ module Doonan
             add_image_to_scope(images_dir_entry)
           end
         end
+      end
+    end
+
+    def get_variables(json_object)
+      variables = {}
+      names = []
+      json_object.delete_if do |key, value|
+        if key =~ /^\$(\w+)/
+          names << $1
+          variables[key] = value.to_s
+          true
+        else
+          false
+        end
+      end
+      [Regexp.new("\\$(#{names.join('|')})"), variables]
+    end
+
+    def transform_values(json_object, &block)
+      json_object.each_pair do |key, value|
+        json_object[key] = transform_value(value, &block)
+      end
+      json_object
+    end
+
+    def transform_value(value, &block)
+      case value
+      when Hash
+        transform_values(value, &block)
+      when Array
+        value.each_with_index {|v, i| value[i] = transform_value(v, &block) }
+        value
+      else
+        yield value
       end
     end
 
