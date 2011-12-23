@@ -8,7 +8,7 @@ module Doonan
     def initialize(template_path, load_paths)
       @template_path = template_path
       extension = File.extname(template_path)
-      @output_filename = File.basename(template_path).chomp(extension)
+      @output_filename = template_path.chomp(extension)
       template_class = Tilt[extension]
       options = {}
       if template_class <= Tilt::SassTemplate

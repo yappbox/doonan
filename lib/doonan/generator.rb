@@ -13,12 +13,10 @@ module Doonan
       Compass.configuration.images_path = File.join(input_path, 'images')
       load_paths = [staging_output_path]
       extensions.each_with_index do |extension|
-        pass_templates = templates(staging_output_path, extension, load_paths)
-        pass_templates.each do |template|
-          output = template.render(input.scope)
-          render_output_path = File.join(staging_output_path, template.output_filename)
-          File.open(render_output_path, 'w') do |f|
-            f.puts output
+        templates = templates(staging_output_path, extension, load_paths)
+        templates.each do |template|
+          File.open(template.output_filename, 'w') do |f|
+            f.puts template.render(input.scope)
           end
           FileUtils.rm(template.template_path)
         end
