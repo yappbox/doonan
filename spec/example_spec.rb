@@ -10,13 +10,14 @@ describe "example output" do
     @out_path = File.expand_path('../../tmp/example-output', __FILE__)
     FileUtils.rm_rf(@out_path)
     doonan = Doonan::Generator.new(templates_path)
+    doonan.helpers Doonan::CSSHelper
     doonan.generate(@input_path, @out_path, ['erb', 'scss'])
   end
 
   it "should output the hello world color" do
     parser = CssParser::Parser.new
     parser.load_file!('foo.css', @out_path)
-    parser.find_by_selector('.hello .world').should == ['color: #00C;']
+    parser.find_by_selector('.hello .world').should == ['color: #00C; background: #00C;']
   end
 
   it "should embed the icon" do

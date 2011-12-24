@@ -3,6 +3,7 @@ require "doonan/generator"
 require "doonan/input"
 require "doonan/render_session"
 require "doonan/template"
+require "doonan/css_helper"
 require "logger"
 
 module Doonan
@@ -13,7 +14,7 @@ module Doonan
       logger
     end
   end
-  
+
   def logger=(logger)
     @logger = logger
   end

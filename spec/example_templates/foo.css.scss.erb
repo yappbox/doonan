@@ -1,13 +1,9 @@
 .icon1 {
-  <% if images.icon_1? %>
-    background-image:inline-image('<%= images.icon_1.path %>')
-  <% end %>
+  <%= o("background-image:inline-image('%s')", images.icon_1? && images.icon_1.path) %>
 }
 
 .icon2 {
-  <% if images.icon_2? %>
-    background-image:inline-image('<%= images.icon_2.path %>')
-  <% end %>
+  <%= o("background-image:inline-image('%s')", images.icon_2? && images.icon_2.path) %>
 }
 <% if image_lists.foo? %>
   <% image_lists.foo.each do |image| %>
@@ -18,7 +14,9 @@
 <% end %>
 .hello {
   .world {
-    color: <%= hello_world_color %>;
+    <%= o('color', hello_world_color) %>
+    <%= o('background-color', my_bg_color) %>
+    <%= o('background: %s;', hello_world_color) %>
   }
 }
 <% my_list.each do |item| %>
