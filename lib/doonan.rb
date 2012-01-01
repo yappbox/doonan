@@ -1,6 +1,8 @@
 require "doonan/version"
 require "doonan/generator"
 require "doonan/input"
+require "doonan/input_scope"
+require "doonan/images_scope"
 require "doonan/render_session"
 require "doonan/template"
 require "doonan/css_helper"
