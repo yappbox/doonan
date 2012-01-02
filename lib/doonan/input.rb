@@ -1,12 +1,28 @@
-require 'json'
+require 'doonan/input_processing/variable_resolver'
+require 'doonan/input_processing/images_merger'
+require 'doonan/input_processing/json_merger'
 
 module Doonan
   class Input
     def initialize(path)
       @images_path = File.join(path, 'images')
-      @scope = InputScope.new
-      @scope.merge_json!(File.read(File.join(path, 'settings.json')))
-      @scope.merge!(ImagesScope.from_path(images_path))
+      json_path = File.join(path, 'settings.json')
+      scope = Hashie::Mash.new
+      scope = json_merger.merge(json_path, scope)
+      scope = images_merger.merge(images_path, scope)
+      @scope = variable_resolver.resolve(scope)
+    end
+    
+    def json_merger
+      InputProcessing::JsonMerger.new
+    end
+
+    def images_merger
+      InputProcessing::ImagesMerger.new
+    end
+
+    def variable_resolver
+      InputProcessing::VariableResolver.new
     end
 
     attr_reader :scope
