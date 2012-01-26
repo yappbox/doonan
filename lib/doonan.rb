@@ -1,12 +1,12 @@
 require "doonan/version"
-require "doonan/generator"
-require "doonan/input"
-require "doonan/render_session"
-require "doonan/template"
-require "doonan/css_helper"
+require 'doonan/asset'
+require 'doonan/assets'
+require 'doonan/variable_resolver'
+require 'doonan/scope'
 require "logger"
 
 module Doonan
+  module_function
   def logger
     @logger ||= begin
       logger = Logger.new(STDOUT)
@@ -18,5 +18,4 @@ module Doonan
   def logger=(logger)
     @logger = logger
   end
-  module_function :logger, :logger=
 end

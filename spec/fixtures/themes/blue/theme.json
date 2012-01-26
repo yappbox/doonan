@@ -5,7 +5,7 @@
   "my_list": [
     {
       "slug": "foo",
-      "color": "red",
+      "color": "black",
       "frame": {
         "top": "10px",
         "left": "20px",
