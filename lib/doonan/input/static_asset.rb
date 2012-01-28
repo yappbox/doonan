@@ -1,7 +1,7 @@
 require 'doonan/asset'
 
 module Doonan
-  module Assets
+  module Input
     # Static asset represents an existing file
     class StaticAsset < Asset
       private

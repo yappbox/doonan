@@ -1,14 +1,14 @@
 require 'image_size'
-require 'doonan/assets/static_asset'
+require 'doonan/input/static_asset'
 
 module Doonan
-  module Assets
+  module Input
     class ImageAsset < StaticAsset
       attr_reader :type, :width, :height
 
       def realize_self
         read do |io|
-          # reads 1K to determine image type and size
+          # reads head to determine image type and size
           image_size = ImageSize.new(io)
           @type = image_size.format
           @width = image_size.width

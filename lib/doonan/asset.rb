@@ -34,7 +34,7 @@ module Doonan
     end
 
     def inspect
-      fullpath
+      "<#{self.class.name} #{fullpath}>"
     end
 
     # The absolute path to the directory that contains the asset.
