@@ -14,8 +14,20 @@ describe Doonan::PipelineBuilder do
 
   after do
     Dir.chdir(@orig_pwd)
-    FileUtils.remove_entry_secure(@project_root)
+    puts @project_root
+    #FileUtils.remove_entry_secure(@project_root)
   end
 
-  its(:build_input_assets) { should == [] }
+  it ('should be able to build a pipeline') do
+    inputs = subject.build_input_assets
+    require 'doonan/css_helper'
+    subject.scope_helpers Doonan::CSSHelper
+    themes = subject.build_theme_scope_assets
+    outputs = subject.build_themed_assets(inputs, themes)
+    outputs.each do |output|
+      output.realize
+      output.should exist
+      puts output.inspect
+    end
+  end
 end

@@ -12,7 +12,7 @@ module Doonan
       end
 
       def realize_self
-        @template = template_builder.build(read)
+        @template = template_builder.build(fullpath, read)
       end
 
       def unrealize_self

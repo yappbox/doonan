@@ -3,7 +3,10 @@ require 'hashie'
 module Doonan
   class Scope < Hashie::Mash
     def self.variable_resolver
-      @variable_resolver ||= VariableResolver.new
+      @variable_resolver ||= begin
+        require 'doonan/variable_resolver'
+        VariableResolver.new
+      end
     end
 
     def resolve_variables

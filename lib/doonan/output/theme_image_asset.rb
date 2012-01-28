@@ -9,6 +9,14 @@ module Doonan
         @image_asset = add_dependency(image_asset)
       end
 
+      def slug
+        image_asset.slug
+      end
+
+      def slug_path
+        image_asset.slug_path
+      end
+
       private
       def realize_self
         mkdir_p dir

@@ -16,8 +16,10 @@ module Doonan
         ERB_EXT =~ path
       end
 
-      def build(source)
-        ::ERB.new(source)
+      def build(filename, source)
+        erb = ::ERB.new(source)
+        erb.filename = filename
+        erb
       end
     end
   end

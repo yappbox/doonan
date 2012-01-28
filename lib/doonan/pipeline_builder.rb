@@ -2,7 +2,6 @@ require 'doonan/paths'
 require 'doonan/input/static_asset'
 require 'doonan/input/template_asset'
 require 'doonan/output/themed_asset'
-require 'doonan/output/themed_template_asset'
 require 'doonan/theme_builder'
 require 'doonan/pipeline'
 
@@ -40,8 +39,23 @@ module Doonan
     end
 
     def build_theme_builders
-      Path.map(themes_root, '*/*.{yml,json}').map do |theme_path|
-        ThemeBuilder.new(themes_root, images_root, output_root, theme_path, scope_helper)
+      Paths.map(themes_root, '*/*.{yml,json}').map do |theme_path|
+        build_theme_builder(theme_path)
+      end
+    end
+
+    def build_theme_builder(theme_path)
+      ThemeBuilder.new(
+        File.expand_path(themes_root),
+        File.expand_path(images_root),
+        File.expand_path(output_root),
+        theme_path, scope_helper
+      )
+    end
+
+    def build_theme_scope_assets
+      build_theme_builders.map do |theme_builder|
+        build_theme_scope_asset(theme_builder)
       end
     end
 
@@ -50,6 +64,19 @@ module Doonan
       image_assets = theme_builder.build_image_assets
       theme_image_assets = theme_builder.build_theme_image_assets image_assets
       theme_builder.build_theme_scope_asset scope_hash_asset, theme_image_assets
+    end
+
+    def build_themed_assets(input_assets, *theme_scope_assets)
+      if theme_scope_assets.size == 1 && Array === theme_scope_assets[0]
+        theme_scope_assets = theme_scope_assets[0]
+      end
+      themed_assets = []
+      input_assets.each do |input_asset|
+        theme_scope_assets.each do |theme_scope_asset|
+          themed_assets << build_themed_asset(theme_scope_asset, input_asset)
+        end
+      end
+      themed_assets
     end
 
     def template_builder
@@ -69,10 +96,6 @@ module Doonan
 
     def build_themed_asset(theme_scope_asset, input_asset)
       Output::ThemedAsset.new(output_root, theme_scope_asset, input_asset)
-    end
-
-    def build_themed_template_asset(theme_scope_asset, input_asset)
-      Output::ThemedTemplateAsset.new(output_root, theme_scope_asset, input_asset)
     end
   end
 end

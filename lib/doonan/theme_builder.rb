@@ -25,9 +25,9 @@ module Doonan
       ext = File.extname(theme_path)
       case ext
       when '.json'
-        build_input_json_asset
+        build_json_asset
       when '.yml'
-        build_input_yaml_asset
+        build_yaml_asset
       else
         raise "unsupported hash format #{ext}"
       end
