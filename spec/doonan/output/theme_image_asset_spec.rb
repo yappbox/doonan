@@ -2,13 +2,13 @@ require File.expand_path('../../../spec_helper', __FILE__)
 require 'doonan'
 require 'tmpdir'
 
-describe Doonan::Assets::ThemedImageAsset do
+describe Doonan::Output::ThemeImageAsset do
   before { @out_root = Dir.mktmpdir('test') }
   after { FileUtils.remove_entry_secure(@out_root) }
 
   let(:root) { File.expand_path('../../../fixtures/themes/red/images', __FILE__) }
   let(:path) { 'foo/people.png' }
-  let(:image_asset) { Doonan::Assets::ImageAsset.new(root, path) } 
+  let(:image_asset) { Doonan::Input::ImageAsset.new(root, path) }
 
   let(:out_root) { @out_root }
 
@@ -21,6 +21,7 @@ describe Doonan::Assets::ThemedImageAsset do
 
   context('realized') do
     before { subject.realize }
+    it { should exist }
     its(:image_info) { should == {:path => 'themes/red/foo/people.png', :slug=>"people", :type=>:png, :width=>48, :height=>48} }
   end
 end

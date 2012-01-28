@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'doonan'
+require 'doonan/variable_resolver'
 
 describe Doonan::VariableResolver do
   describe 'resolve' do

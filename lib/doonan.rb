@@ -1,10 +1,5 @@
 require "doonan/version"
-require 'doonan/asset'
-require 'doonan/assets'
-require 'doonan/variable_resolver'
-require 'doonan/scope'
-require 'doonan/paths'
-require 'doonan/pipeline'
+require 'doonan/pipeline_builder'
 require "logger"
 
 module Doonan

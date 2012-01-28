@@ -1,5 +1,5 @@
 require 'yaml'
-require 'doonan/hash_asset'
+require 'doonan/input/hash_asset'
 
 module Doonan
   module Input

@@ -2,15 +2,19 @@ module Doonan
   class Paths
     include Enumerable
 
-    attr_reader :root, :pattern
+    def self.map(root, glob, &block)
+      new(File.expand_path(root), glob).map(&block)
+    end
 
-    def initialize(root, pattern)
+    attr_reader :root, :glob
+
+    def initialize(root, glob)
       @root = root
-      @pattern = pattern
+      @glob = glob
     end
 
     def each
-      Dir.glob(File.join(root, pattern)).each do |path|
+      Dir.glob(File.join(root, glob)).each do |path|
         next unless File.file?(path)
         path_from_root = path[root.size+1, path.size]
         yield path_from_root
