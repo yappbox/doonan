@@ -24,17 +24,9 @@ module Doonan
       end
     end
 
-    def build_input_assets
+    def build_template_assets
       Paths.map(input_root, input_glob) do |path|
-        build_input_asset(path)
-      end
-    end
-
-    def build_input_asset(path)
-      if template_builder.is_template? path
         build_template_asset(path)
-      else
-        build_static_asset(path)
       end
     end
 
@@ -79,23 +71,12 @@ module Doonan
       themed_assets
     end
 
-    def template_builder
-      @template_builder ||= begin
-        require 'doonan/template_builder/erb'
-        TemplateBuilder::Erb.new
-      end
-    end
-
-    def build_static_asset(path)
-      Input::StaticAsset.new(input_root, path)
-    end
-
     def build_template_asset(path)
-      Input::TemplateAsset.new(input_root, path, template_builder)
+      Input::TemplateAsset.new(input_root, path)
     end
 
-    def build_themed_asset(theme_scope_asset, input_asset)
-      Output::ThemedAsset.new(output_root, theme_scope_asset, input_asset)
+    def build_themed_asset(theme_scope_asset, template_asset)
+      Output::ThemedAsset.new(output_root, theme_scope_asset, template_asset)
     end
   end
 end

@@ -7,7 +7,7 @@ module Doonan
 
       def initialize(output_root, theme_scope_asset, input_asset)
         base_path = File.join('themes', theme_scope_asset.theme_slug)
-        @templated = input_asset.respond_to? :template
+        @templated = input_asset.is_template?
         if @templated
           path = File.join(base_path, input_asset.path_without_ext)
         else

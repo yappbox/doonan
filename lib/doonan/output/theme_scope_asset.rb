@@ -31,19 +31,9 @@ module Doonan
         scope.theme_slug = theme_slug
         scope.resolve_variables
         scope.extend(scope_helper)
-        # todo move back to separate file
-        images_hash = {}
         theme_image_assets.each do |image_asset|
-          if image_asset.slug_path.empty?
-            images_hash[image_asset.slug] = image_asset.image_info
-          else
-            hash = image_asset.slug_path.inject(images_hash) do |hash, slug|
-              hash[slug] ||= {}
-            end
-            (hash[:images] ||= []) << image_asset.image_info
-          end
+          scope.add_image_info(image_asset.slug_path, image_asset.image_info)
         end
-        scope.merge!(images_hash)
         scope
       end
     end

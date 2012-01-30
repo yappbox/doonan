@@ -19,12 +19,12 @@ describe Doonan::PipelineBuilder do
   end
 
   it ('should be able to build a pipeline') do
-    inputs = subject.build_input_assets
+    template_inputs = subject.build_template_assets
     require 'doonan/css_helper'
     subject.scope_helpers Doonan::CSSHelper
-    themes = subject.build_theme_scope_assets
-    outputs = subject.build_themed_assets(inputs, themes)
-    outputs.each do |output|
+    scope_outputs = subject.build_theme_scope_assets
+    template_outputs = subject.build_themed_assets(template_inputs, scope_outputs)
+    template_outputs.each do |output|
       output.realize
       output.should exist
     end

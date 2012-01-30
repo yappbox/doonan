@@ -1,4 +1,5 @@
 require 'doonan/asset'
+require 'doonan/scope/image_info'
 
 module Doonan
   module Output
@@ -30,13 +31,7 @@ module Doonan
       end
 
       def build_image_info
-        {
-          :path => path,
-          :slug => image_asset.slug,
-          :type => image_asset.type,
-          :width => image_asset.width,
-          :height => image_asset.height
-        }
+        Scope::ImageInfo.new(path, image_asset.slug, image_asset.format, image_asset.width, image_asset.height)
       end
     end
   end

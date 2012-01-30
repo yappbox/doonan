@@ -1,4 +1,5 @@
 require 'doonan/input/static_asset'
+require 'doonan/hash_parser'
 
 module Doonan
   module Input
@@ -6,7 +7,7 @@ module Doonan
       attr_reader :hash
 
       def realize_self
-        @hash = parse_hash(read)
+        @hash = parse_hash
       end
 
       def unrealize_self
@@ -14,8 +15,8 @@ module Doonan
       end
 
       private
-      def parse_hash(data)
-        raise NotImplementedError
+      def parse_hash
+        HashParser.parse(path, read)
       end
     end
   end

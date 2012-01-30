@@ -1,6 +1,5 @@
-require 'doonan/input/json_asset'
-require 'doonan/input/yaml_asset'
 require 'doonan/input/image_asset'
+require 'doonan/input/hash_asset'
 require 'doonan/output/theme_image_asset'
 require 'doonan/output/theme_scope_asset'
 
@@ -22,15 +21,7 @@ module Doonan
     end
 
     def build_scope_hash_asset
-      ext = File.extname(theme_path)
-      case ext
-      when '.json'
-        build_json_asset
-      when '.yml'
-        build_yaml_asset
-      else
-        raise "unsupported hash format #{ext}"
-      end
+      Input::HashAsset.new(themes_root, theme_path)
     end
 
     def build_image_assets
