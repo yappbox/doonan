@@ -21,14 +21,14 @@ describe Doonan::Input::ImageAsset do
 
     its(:width)  { should be_nil }
     its(:height) { should be_nil }
-    its(:type)   { should be_nil }
+    its(:format)   { should be_nil }
 
     context('realized') do
       before { subject.realize }
 
       its(:width)  { should == 48 }
       its(:height) { should == 48 }
-      its(:type)   { should == :png }
+      its(:format)   { should == :png }
     end
 
     context('unrealized') do
@@ -39,7 +39,7 @@ describe Doonan::Input::ImageAsset do
 
       its(:width)  { should be_nil }
       its(:height) { should be_nil }
-      its(:type)   { should be_nil }
+      its(:format)   { should be_nil }
     end
   end
 
@@ -54,7 +54,7 @@ describe Doonan::Input::ImageAsset do
 
       its(:width)  { should == 48 }
       its(:height) { should == 48 }
-      its(:type)   { should == :jpeg }
+      its(:format)   { should == :jpeg }
     end
   end
 end

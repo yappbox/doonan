@@ -14,8 +14,8 @@ describe Doonan::PipelineBuilder do
 
   after do
     Dir.chdir(@orig_pwd)
-    puts @project_root
-    #FileUtils.remove_entry_secure(@project_root)
+    #puts @project_root
+    FileUtils.remove_entry_secure(@project_root)
   end
 
   it ('should be able to build a pipeline') do
@@ -27,7 +27,6 @@ describe Doonan::PipelineBuilder do
     outputs.each do |output|
       output.realize
       output.should exist
-      puts output.inspect
     end
   end
 end

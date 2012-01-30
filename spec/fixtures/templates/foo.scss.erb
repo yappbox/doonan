@@ -5,8 +5,8 @@
 .icon2 {
   <%= o("background-image:inline-image('%s')", images.icon_2? && images.icon_2.path) %>
 }
-<% if image_lists.foo? %>
-  <% image_lists.foo.each do |image| %>
+<% if images.foo? %>
+  <% images.foo.each do |image| %>
     .foo_<%= image.slug %> {
       background-image:inline-image('<%= image.path %>')
     }

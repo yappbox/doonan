@@ -4,20 +4,20 @@ require 'doonan/input/static_asset'
 module Doonan
   module Input
     class ImageAsset < StaticAsset
-      attr_reader :type, :width, :height
+      attr_reader :format, :width, :height
 
       def realize_self
         read do |io|
           # reads head to determine image type and size
           image_size = ImageSize.new(io)
-          @type = image_size.format
+          @format = image_size.format
           @width = image_size.width
           @height = image_size.height
         end
       end
 
       def unrealize_self
-        @type = @width = @height = nil
+        @format = @width = @height = nil
       end
 
       def slug

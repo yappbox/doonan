@@ -22,6 +22,6 @@ describe Doonan::Output::ThemeImageAsset do
   context('realized') do
     before { subject.realize }
     it { should exist }
-    its(:image_info) { should == {:path => 'themes/red/foo/people.png', :slug=>"people", :type=>:png, :width=>48, :height=>48} }
+    its(:image_info) { should == Doonan::Scope::ImageInfo.new('themes/red/foo/people.png', "people", :png, 48, 48) }
   end
 end
