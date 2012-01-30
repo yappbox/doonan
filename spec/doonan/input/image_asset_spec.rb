@@ -1,14 +1,14 @@
 require File.expand_path('../../../spec_helper', __FILE__)
 require 'doonan'
 
-describe Doonan::Input::ImageAsset do
+describe Doonan::Assets::ImageInput do
   let(:root) { File.expand_path('../../../fixtures/themes/red/images', __FILE__) }
   let(:path) { 'tab_bar/icons/gallery.png' }
   subject do
     described_class.new(root, path)
   end
 
-  it { should be_kind_of Doonan::Input::StaticAsset }
+  it { should be_kind_of Doonan::Assets::StaticAsset }
 
   its(:slug) { should == 'gallery' }
   its(:slug_path) { should == ['tab_bar', 'icons'] }

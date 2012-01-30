@@ -1,7 +1,7 @@
-require 'doonan/input/image_asset'
-require 'doonan/input/hash_asset'
-require 'doonan/output/theme_image_asset'
-require 'doonan/output/theme_scope_asset'
+require 'doonan/assets/image_input'
+require 'doonan/assets/scope_input'
+require 'doonan/assets/image_output'
+require 'doonan/assets/scope_output'
 
 module Doonan
   class ThemeBuilder
@@ -20,10 +20,6 @@ module Doonan
       @theme_images_root = File.join(@theme_root, 'images')
     end
 
-    def build_scope_hash_asset
-      Input::HashAsset.new(themes_root, theme_path)
-    end
-
     def build_image_assets
       Paths.map(theme_images_root, '**/*.{png,jpg}') do |path|
         build_image_asset(path)
@@ -36,24 +32,20 @@ module Doonan
       end
     end
 
-    def build_json_asset
-      Input::JsonAsset.new(themes_root, theme_path)
-    end
-
-    def build_yaml_asset
-      Input::YamlAsset.new(themes_root, theme_path)
+    def build_scope_hash_asset
+      Assets::ScopeInput.new(themes_root, theme_path)
     end
 
     def build_image_asset(path)
-      Input::ImageAsset.new(theme_images_root, path)
+      Assets::ImageInput.new(theme_images_root, path)
     end
 
     def build_theme_image_asset(image_asset)
-      Output::ThemeImageAsset.new(images_root, theme_slug, image_asset)
+      Assets::ImageOutput.new(images_root, theme_slug, image_asset)
     end
 
     def build_theme_scope_asset(scope_hash_asset, theme_image_assets)
-      Output::ThemeScopeAsset.new(output_root, theme_slug, scope_hash_asset, theme_image_assets, scope_helper)
+      Assets::ScopeOutput.new(output_root, theme_slug, scope_hash_asset, theme_image_assets, scope_helper)
     end
   end
 end

@@ -1,7 +1,6 @@
 require 'doonan/paths'
-require 'doonan/input/static_asset'
-require 'doonan/input/template_asset'
-require 'doonan/output/themed_asset'
+require 'doonan/assets/template_input'
+require 'doonan/assets/template_output'
 require 'doonan/theme_builder'
 require 'doonan/pipeline'
 
@@ -72,11 +71,11 @@ module Doonan
     end
 
     def build_template_asset(path)
-      Input::TemplateAsset.new(input_root, path)
+      Assets::TemplateInput.new(input_root, path)
     end
 
     def build_themed_asset(theme_scope_asset, template_asset)
-      Output::ThemedAsset.new(output_root, theme_scope_asset, template_asset)
+      Assets::TemplateOutput.new(output_root, theme_scope_asset, template_asset)
     end
   end
 end

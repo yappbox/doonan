@@ -1,14 +1,14 @@
-require 'doonan/input/static_asset'
+require 'doonan/assets/static_asset'
 require 'doonan/template_parser'
 
 module Doonan
-  module Input
+  module Assets
     # Theme template asset
     #
     # If template asset is a template that can be evaled with a scope,
     # #realize will parse it. If not, the file will just be copied to
     # the theme output.
-    class TemplateAsset < StaticAsset
+    class TemplateInput < StaticAsset
       attr_reader :template
 
       def is_template?

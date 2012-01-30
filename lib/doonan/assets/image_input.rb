@@ -1,9 +1,9 @@
 require 'image_size'
-require 'doonan/input/static_asset'
+require 'doonan/assets/static_asset'
 
 module Doonan
-  module Input
-    class ImageAsset < StaticAsset
+  module Assets
+    class ImageInput < StaticAsset
       attr_reader :format, :width, :height
 
       def realize_self

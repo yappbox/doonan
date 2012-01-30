@@ -1,16 +1,12 @@
 require 'doonan/asset'
 
 module Doonan
-  module Input
+  module Assets
     # Static asset represents an existing file
+    # #exist? should start out as true before #realize
+    # #realize processes the static file
     class StaticAsset < Asset
       private
-      def realize_self
-      end
-
-      def unrealize_self
-      end
-
       def add_dependency
         raise NotImplementedError, 'static assets represent an existing file'
       end

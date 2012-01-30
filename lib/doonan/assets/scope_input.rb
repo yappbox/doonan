@@ -1,9 +1,9 @@
-require 'doonan/input/static_asset'
+require 'doonan/assets/static_asset'
 require 'doonan/hash_parser'
 
 module Doonan
-  module Input
-    class HashAsset < StaticAsset
+  module Assets
+    class ScopeInput < StaticAsset
       attr_reader :hash
 
       def realize_self

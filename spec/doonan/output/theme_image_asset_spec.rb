@@ -2,13 +2,13 @@ require File.expand_path('../../../spec_helper', __FILE__)
 require 'doonan'
 require 'tmpdir'
 
-describe Doonan::Output::ThemeImageAsset do
+describe Doonan::Assets::ImageOutput do
   before { @out_root = Dir.mktmpdir('test') }
   after { FileUtils.remove_entry_secure(@out_root) }
 
   let(:root) { File.expand_path('../../../fixtures/themes/red/images', __FILE__) }
   let(:path) { 'foo/people.png' }
-  let(:image_asset) { Doonan::Input::ImageAsset.new(root, path) }
+  let(:image_asset) { Doonan::Assets::ImageInput.new(root, path) }
 
   let(:out_root) { @out_root }
 
