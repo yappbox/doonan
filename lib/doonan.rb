@@ -1,6 +1,7 @@
-require "doonan/version"
+require 'doonan/version'
+require 'doonan/config'
 require 'doonan/pipeline_builder'
-require "logger"
+require 'logger'
 
 module Doonan
   module_function

@@ -2,7 +2,7 @@ require 'doonan/asset'
 
 module Doonan
   module Assets
-    class TemplateOutput < Asset
+    class ThemeOutput < Asset
       attr_reader :scope_output, :template_input
 
       def initialize(output_root, scope_output, template_input)
