@@ -8,7 +8,7 @@ module Doonan
       include ::Enumerable
 
       def initialize
-        @hash = {}
+        @hash = ::Hashie::Mash.new
         @image_infos = []
       end
 
@@ -38,10 +38,7 @@ module Doonan
       end
 
       def method_missing(method_name, *args, &blk)
-        if /(.*)\?$/ =~ method_name.to_s
-          return @hash.key?($1.to_sym)
-        end
-        super(method_name, *args, &blk)
+        @hash.send(method_name, *args, &blk)
       end
 
       def each(&block)
