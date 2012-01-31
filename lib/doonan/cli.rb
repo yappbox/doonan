@@ -4,7 +4,7 @@ require 'fileutils'
 
 module Doonan
   class CLI < Thor
-    class_option :themefile, :default => "Themefile", :aliases => "-c"
+    class_option :config, :default => "config/doonan.rb", :aliases => "-c"
     class_option :debug, :type => :boolean, :default => false, :aliases => "-d"
 
     desc 'version', 'doonan version'
@@ -59,7 +59,7 @@ module Doonan
 
     no_tasks {
       def config
-        @config ||= Config.load options[:themefile]
+        @config ||= Config.load options[:config]
       end
 
       def recompile
