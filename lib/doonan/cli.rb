@@ -31,19 +31,28 @@ module Doonan
 
     desc 'watch', 'recompile themes on change'
     def watch
+      require 'fssm'
       recompile
 
+      theme_input_root = config.theme_input_root
+      themes_root = config.themes_root
+
+      update_proc = lambda do |base, relative|
+        say "file changed #{relative}"
+        recompile
+      end
+
       FSSM.monitor do
-        path config.theme_input_root do
-          update {|base, relative| recompile }
-          delete {|base, relative| recompile }
-          create {|base, relative| recompile }
+        path theme_input_root do
+          update &update_proc
+          delete &update_proc
+          create &update_proc
         end
 
-        path config.themes_root do
-          update {|base, relative| recompile }
-          delete {|base, relative| recompile }
-          create {|base, relative| recompile }
+        path themes_root do
+          update &update_proc
+          delete &update_proc
+          create &update_proc
         end
       end
     end
