@@ -28,7 +28,7 @@ module Doonan
       private
       def build_scope
         scope = Doonan::Scope.new(scope_input.hash)
-        scope.theme_slug = theme_slug
+        scope.slug = theme_slug
         scope.resolve_variables
         image_outputs.each do |image_output|
           scope.add_image_info(image_output.slug_path, image_output.image_info)
