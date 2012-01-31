@@ -1,14 +1,15 @@
 module Doonan
   class Config
-    attr_reader :theme_input_root, :theme_input_glob, :themes_root, :theme_output_root, :images_output_root, :scope_helper
+    attr_reader :theme_input_root, :theme_input_glob, :themes_root, :theme_output_root, :images_output_root, :themes_output_prefix, :scope_helper
 
-    def initialize(project_root, theme_input_root, theme_input_glob, themes_root, theme_output_root, images_output_root, *helper_modules)
+    def initialize(project_root, theme_input_root, theme_input_glob, themes_root, theme_output_root, images_output_root, themes_output_prefix, *helper_modules)
       project_root ||= '.'
       @theme_input_root = File.expand_path(theme_input_root || 'theme_template', project_root)
       @theme_input_glob = theme_input_glob || '**/*.*'
       @themes_root = File.expand_path(themes_root || 'themes', project_root)
-      @theme_output_root = File.expand_path(theme_output_root || 'sass/themes', project_root)
-      @images_output_root = File.expand_path(images_output_root || 'images/themes', project_root)
+      @theme_output_root = File.expand_path(theme_output_root || 'sass', project_root)
+      @images_output_root = File.expand_path(images_output_root || 'images', project_root)
+      @themes_output_prefix = themes_output_prefix || 'themes'
       @scope_helper = Module.new
       unless helper_modules.empty?
         @scope_helper.instance_eval do
@@ -31,7 +32,7 @@ module Doonan
 
       # Build {Doonan::Config} from DSL
       def config
-        Config.new(@project_root, @theme_input_root, @theme_input_glob, @themes_root, @theme_output_root, @images_output_root, *@scope_helpers)
+        Config.new(@project_root, @theme_input_root, @theme_input_glob, @themes_root, @theme_output_root, @images_output_root, @themes_output_prefix, *@scope_helpers)
       end
 
       # The project root directory used to expand relative config paths.
@@ -70,16 +71,26 @@ module Doonan
 
       # The theme output root of the doonan theme pipeline.
       #
-      # @param [String] path to output, defaults to 'sass/themes'
+      # @param [String] path to output, defaults to 'sass'
       def theme_output_root(path)
         @theme_output_root = path
       end
 
       # The image output root of the doonan theme pipeline.
       #
-      # @param [String] path to output, defaults to 'images/themes'
+      # @param [String] path to output, defaults to 'images'
       def images_output_root(path)
         @images_output_root = path
+      end
+
+      # a prefix to the output root so theme outputs are isolated from other project assets
+      # gives a convenient way to delete all output.
+      #
+      # output/prefix/slug/**/*.*
+      #
+      # @param [String] prefix, defaults to 'themes'
+      def themes_output_prefix(prefix)
+        @themes_output_prefix = prefix
       end
 
       # Scope helper modules. Helper modules will be mixed into the doonan scope.

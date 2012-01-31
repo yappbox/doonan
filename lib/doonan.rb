@@ -1,11 +1,11 @@
-require 'doonan/version'
-require 'doonan/config'
-require 'doonan/pipeline_builder'
 require 'logger'
+require 'doonan/version'
+require 'doonan/logging'
+require 'doonan/config'
+require 'doonan/pipeline'
 
 module Doonan
-  module_function
-  def logger
+  def self.logger
     @logger ||= begin
       logger = Logger.new(STDOUT)
       logger.level = Logger::WARN
@@ -13,7 +13,7 @@ module Doonan
     end
   end
 
-  def logger=(logger)
+  def self.logger=(logger)
     @logger = logger
   end
 end

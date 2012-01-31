@@ -7,8 +7,8 @@ module Doonan
     class ScopeOutput < Asset
       attr_reader :theme_slug, :scope_input, :image_outputs, :scope_helper, :scope
 
-      def initialize(output_root, theme_slug, scope_input, image_outputs, scope_helper)
-        super(output_root, "themes/#{theme_slug}/theme.json")
+      def initialize(root, themes_prefix, theme_slug, scope_input, image_outputs, scope_helper)
+        super(root, File.join(themes_prefix, theme_slug, 'themes.json'))
         @theme_slug = theme_slug
         @scope_input = add_dependency(scope_input)
         @image_outputs = image_outputs.each {|image_output| add_dependency(image_output) }

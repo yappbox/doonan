@@ -6,8 +6,8 @@ module Doonan
     class ImageOutput < Asset
       attr_reader :image_input, :image_info
 
-      def initialize(images_root, theme_slug, image_input)
-        super(images_root, "themes/#{theme_slug}/#{image_input.path}")
+      def initialize(root, themes_prefix, theme_slug, image_input)
+        super(root, File.join(themes_prefix, theme_slug, image_input.path))
         @image_input = add_dependency(image_input)
       end
 

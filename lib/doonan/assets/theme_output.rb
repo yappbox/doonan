@@ -3,19 +3,19 @@ require 'doonan/asset'
 module Doonan
   module Assets
     class ThemeOutput < Asset
-      attr_reader :scope_output, :template_input
+      attr_reader :scope_output, :theme_input
 
-      def initialize(output_root, scope_output, template_input)
-        base_path = File.join('themes', scope_output.theme_slug)
-        @templated = template_input.is_template?
+      def initialize(root, themes_prefix, theme_slug, scope_output, theme_input)
+        @templated = theme_input.is_template?
         if @templated
-          path = File.join(base_path, template_input.path_without_ext)
+          path = theme_input.path_without_ext
         else
-          path = File.join(base_path, template_input.path)
+          path = theme_input.path
         end
-        super(output_root, path)
+        path = File.join(themes_prefix, theme_slug, path)
+        super(root, path)
         @scope_output = add_dependency(scope_output)
-        @template_input = add_dependency(template_input)
+        @theme_input = add_dependency(theme_input)
       end
 
       def templated?
@@ -25,10 +25,10 @@ module Doonan
       private
       def realize_self
         if templated?
-          write scope_output.scope.result(template_input.template)
+          write scope_output.scope.result(theme_input.template)
         else
           mkdir_p dir
-          cp template_input.fullpath, fullpath
+          cp theme_input.fullpath, fullpath
         end
       end
 
