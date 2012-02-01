@@ -37,6 +37,18 @@ module Doonan
         image_info
       end
 
+      def key?(key)
+        @hash.key?(key)
+      end
+
+      def [](key)
+        @hash[key]
+      end
+
+      def respond_to?(symbol, include_private=false)
+        @hash.respond_to?(symbol, include_private) || super(symbol, include_private)
+      end
+
       def method_missing(method_name, *args, &blk)
         @hash.send(method_name, *args, &blk)
       end

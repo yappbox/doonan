@@ -2,7 +2,8 @@ require 'hashie'
 
 module Doonan
   class VariableResolver
-    VARIABLE = /\$(\w+)/
+    VARIABLE = /\$[\w\.]+/
+    STANDALONE_VARIABLE = /\A\$[\w\.]+\Z/
     LEADING_DOLLAR = /\A\$/
 
     # Any hash-like object passed in gets scanned for values
@@ -11,23 +12,44 @@ module Doonan
     # with the value of the top-level key.
     def resolve(hash)
       transform_values(hash) do |value|
-        if value.is_a? String
-          value.gsub(VARIABLE) do |name|
-            variable_key = name.sub(LEADING_DOLLAR,'')
-            if hash.key?(variable_key)
-              hash[variable_key]
-            else
-              Doonan.logger.warn("Missing variable '#{variable_key}' referenced by '#{value}'. Will not substitute.")
-              name
-            end
-          end
-        else
-          value
-        end
+        check_and_resolve_variable(hash, value)
       end
     end
 
     private
+    def check_and_resolve_variable(hash, value)
+      if value.is_a? String
+        if STANDALONE_VARIABLE =~ value
+          resolve_variable(hash, value)
+        else
+          if VARIABLE =~ value
+            value.gsub(VARIABLE) do |variable|
+              resolve_variable(hash, variable, true)
+            end
+          else
+            value
+          end
+        end
+      else
+        value
+      end
+    end
+
+    def resolve_variable(hash, variable, gsub=false)
+      variable_path = variable.sub(LEADING_DOLLAR,'').split('.')
+      new_value = variable_path.inject(hash) do |hash, key|
+        if hash && hash.respond_to?(:key?) && hash.key?(key)
+          hash[key]
+        else
+          Doonan.logger.warn("Failed to resolve variable reference '#{variable_path.join('.')}'. Will not substitute.")
+          return variable
+        end
+      end
+      new_value = check_and_resolve_variable(hash, new_value)
+      new_value = new_value.to_s if gsub
+      new_value
+    end
+
     def transform_values(hash, &block)
       hash.each_pair do |key, value|
         hash[key] = transform_value(value, &block)

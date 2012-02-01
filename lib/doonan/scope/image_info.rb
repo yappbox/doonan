@@ -8,6 +8,14 @@ module Doonan
         members.inject({}) {|hash,member| hash[member] = self[member]; hash}
       end
 
+      def key?(key)
+        members.include? key.to_sym
+      end
+
+      def [](key)
+        self[key.to_sym]
+      end
+
       def to_json(*args)
         ::MultiJson.encode(as_json)
       end

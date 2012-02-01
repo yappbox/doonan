@@ -10,7 +10,7 @@ describe Doonan::VariableResolver do
         "baz" => "$foo",
         "bay" => "$foo $i_am_missing $foo"
       }
-      Doonan.logger.should_receive(:warn).with("Missing variable 'i_am_missing' referenced by '$foo $i_am_missing $foo'. Will not substitute.")
+      Doonan.logger.should_receive(:warn).with("Failed to resolve variable reference 'i_am_missing'. Will not substitute.")
 
       subject.resolve(hash).should == hash
 
@@ -20,12 +20,19 @@ describe Doonan::VariableResolver do
     end
 
     it "resolves variables deeply nested" do
+      nested = {
+        'path' => 'image/path',
+        'width' => 100,
+        'height' => 200
+      }
       hash = {
         "foo" => "bar",
         "bar" => "baz",
+        "images" => {"background1" => nested},
         "object" => {"baz" => "$foo"},
         "array" => ["one", "$bar", "two", "$foo"],
-        "objects" => [{"baz" => "$foo"}, {"baz" => "$bar"}, {"baz" => "hoo $bar $foo!"}]
+        "objects" => [{"baz" => "$foo"}, {"baz" => "$bar"}, {"baz" => "hoo $bar $foo!"}],
+        "path" => "$images.background1"
       }
 
       subject.resolve(hash)
@@ -37,6 +44,7 @@ describe Doonan::VariableResolver do
       hash['objects'][0]['baz'].should == 'bar'
       hash['objects'][1]['baz'].should == 'baz'
       hash['objects'][2]['baz'].should == 'hoo baz bar!'
+      hash['path'].should == nested
     end
 
     it "works with Doonan::Scope instance" do
