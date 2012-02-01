@@ -29,10 +29,10 @@ module Doonan
       def build_scope
         scope = Doonan::Scope.new(scope_input.hash)
         scope.slug = theme_slug
-        scope.resolve_variables
         image_outputs.each do |image_output|
           scope.add_image_info(image_output.slug_path, image_output.image_info)
         end
+        scope.resolve_variables
         scope.extend(scope_helper)
         scope
       end
