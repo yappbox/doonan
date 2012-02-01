@@ -19,15 +19,19 @@ module Doonan
     end
 
     def self.load(config_file)
-      config_dsl = DSL.new
-      config_dsl.instance_eval(File.read(config_file), config_file)
-      config_dsl.config
+      DSL.new(config_file).config
     end
 
     # Config DSL
     class DSL
-      def initialize
+      def initialize(filename=nil, &block)
         @scope_helpers = []
+        instance_eval(File.read(filename), filename) if filename
+        if block_given?
+          @block_self = eval 'self', block.binding
+          instance_eval(&block)
+          @block_self = nil
+        end
       end
 
       # Build {Doonan::Config} from DSL
@@ -100,6 +104,14 @@ module Doonan
         helpers.each do |helper|
           raise 'scope_helper should be a Module' unless helper.instance_of? Module
           @scope_helpers << helper
+        end
+      end
+
+      def method_missing(m, *args, &block)
+        if @block_self && @block_self.respond_to?(m)
+          @block_self.send(m, *args, &block)
+        else
+          super(m, *args, &block)
         end
       end
     end

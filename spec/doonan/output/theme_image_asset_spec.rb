@@ -13,7 +13,7 @@ describe Doonan::Assets::ImageOutput do
   let(:out_root) { @out_root }
 
   subject do
-    described_class.new(out_root, 'red', image_asset)
+    described_class.new(out_root, 'themes', 'red', image_asset)
   end
 
   its(:path) { should == 'themes/red/foo/people.png' }
