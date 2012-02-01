@@ -13,7 +13,7 @@ module Doonan
       end
 
       def [](key)
-        self[key.to_sym]
+        super(key.to_sym)
       end
 
       def to_json(*args)

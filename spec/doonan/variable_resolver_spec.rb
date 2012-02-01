@@ -20,19 +20,19 @@ describe Doonan::VariableResolver do
     end
 
     it "resolves variables deeply nested" do
-      nested = {
-        'path' => 'image/path',
-        'width' => 100,
-        'height' => 200
-      }
+
+      images = Doonan::Scope::Images.new
+      nested = Doonan::Scope::ImageInfo.new('path/to/image', 'background1', :png, 100, 200)
+      images.add_image_info(nested)
       hash = {
         "foo" => "bar",
         "bar" => "baz",
-        "images" => {"background1" => nested},
+        "images" => images,
         "object" => {"baz" => "$foo"},
         "array" => ["one", "$bar", "two", "$foo"],
         "objects" => [{"baz" => "$foo"}, {"baz" => "$bar"}, {"baz" => "hoo $bar $foo!"}],
-        "path" => "$images.background1"
+        "path" => "$images.background1.path",
+        "nested" => '$images.background1'
       }
 
       subject.resolve(hash)
@@ -44,7 +44,8 @@ describe Doonan::VariableResolver do
       hash['objects'][0]['baz'].should == 'bar'
       hash['objects'][1]['baz'].should == 'baz'
       hash['objects'][2]['baz'].should == 'hoo baz bar!'
-      hash['path'].should == nested
+      hash['nested'].should == nested
+      hash['path'].should == nested.path
     end
 
     it "works with Doonan::Scope instance" do
