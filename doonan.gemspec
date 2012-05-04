@@ -22,6 +22,5 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency('compass', '>= 0.11.5')
   gem.add_development_dependency('rspec')
-  gem.add_development_dependency('css_parser')
   gem.add_development_dependency('ruby-debug19')
 end

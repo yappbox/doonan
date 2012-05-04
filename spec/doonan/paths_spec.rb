@@ -4,7 +4,7 @@ require 'doonan'
 describe Doonan::Paths do
   subject { described_class.new(root, pattern) }
 
-  context('templates **/*') do
+  context 'templates **/*' do
     let(:root) { File.expand_path('../../fixtures/templates', __FILE__) }
     let(:pattern) { '**/*' }
 
@@ -12,7 +12,7 @@ describe Doonan::Paths do
     it { should include('_bay.scss.erb', 'foo.scss.erb', 'shared/_bar.scss.erb', 'shared/_baz.scss') }
   end
 
-  context('themes */*.{yml,json}') do
+  context 'themes */*.{yml,json}' do
     let(:root) { File.expand_path('../../fixtures/themes', __FILE__) }
     let(:pattern) { '*/*.{yml,json}' }
 
@@ -20,7 +20,7 @@ describe Doonan::Paths do
     it { should include('red/theme.yml', 'blue/theme.json') }
   end
 
-  context('themes/red/images **/*.{png,jpg}') do
+  context 'themes/red/images **/*.{png,jpg}' do
     let(:root) { File.expand_path('../../fixtures/themes/red/images', __FILE__) }
     let(:pattern) { '**/*.{png,jpg}' }
 

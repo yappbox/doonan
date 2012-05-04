@@ -32,7 +32,7 @@ describe Doonan::Pipeline do
     described_class.new(config)
   }
 
-  it ('should be able to build a pipeline') do
+  it 'should be able to build a pipeline' do
     subject.realize
     #template_inputs = subject.build_template_assets
     #require 'doonan/css_helper'
