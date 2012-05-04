@@ -2,3 +2,4 @@ language: ruby
 bundler_args: --without debug
 rvm:
   - 1.9.2
+script: bundle exec rspec
