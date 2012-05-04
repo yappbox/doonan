@@ -7,7 +7,7 @@ module Doonan
       attr_reader :image_input, :image_info
 
       def initialize(root, themes_prefix, theme_slug, image_input)
-        super(root, File.join(themes_prefix, theme_slug, image_input.path))
+        super(root, File.join(themes_prefix, theme_slug, image_input.path.sub(/(.*?)(\.[^\.]+)?\Z/, "\\1-#{image_input.digest}\\2")))
         @image_input = add_dependency(image_input)
       end
 

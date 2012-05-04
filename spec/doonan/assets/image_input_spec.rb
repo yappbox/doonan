@@ -29,6 +29,7 @@ describe Doonan::Assets::ImageInput do
       its(:width)  { should == 48 }
       its(:height) { should == 48 }
       its(:format)   { should == :png }
+      its(:digest) { should == 'dcd50676410a654b2c5cbf85183124b8' }
     end
 
     context('unrealized') do

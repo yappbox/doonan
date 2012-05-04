@@ -1,4 +1,5 @@
 require 'image_size'
+require 'digest'
 require 'doonan/assets/static_asset'
 
 module Doonan
@@ -16,8 +17,12 @@ module Doonan
         end
       end
 
+      def digest
+        @digest ||= Digest::MD5.file fullpath
+      end
+
       def unrealize_self
-        @format = @width = @height = nil
+        @format = @width = @height = @digest = nil
       end
 
       def slug
