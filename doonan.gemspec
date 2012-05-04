@@ -20,10 +20,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency('fssm', '>= 0.2.7')
   gem.add_dependency('thor')
 
-  gem.add_development_dependency('coffee-script', '~> 2.2')
   gem.add_development_dependency('compass', '~> 0.11')
   gem.add_development_dependency('rspec')
-  gem.add_development_dependency('ruby-debug19')
-  gem.add_development_dependency('rake-pipeline')
-  gem.add_development_dependency('rake-pipeline-web-filters')
 end
