@@ -3,6 +3,8 @@ require 'doonan/version'
 require 'doonan/logging'
 require 'doonan/config'
 require 'doonan/pipeline'
+require 'doonan/commands/clean_project'
+require 'doonan/commands/update_project'
 
 module Doonan
   def self.logger

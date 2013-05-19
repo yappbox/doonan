@@ -19,8 +19,9 @@ module Doonan
         create_theme_input(path)
       end
 
-      debug("Building themes #{config.themes_root} */*.{yml,json}")
-      Paths.map(config.themes_root, '*/*.{yml,json}').map do |path|
+      specs_glob = (config.themes ? "{#{config.themes.join(',')}}" : '*') + '/*.{yml,json}'
+      debug("Building themes #{config.themes_root} #{specs_glob}")
+      Paths.map(config.themes_root, specs_glob).map do |path|
         debug(path)
         create_theme(path)
       end

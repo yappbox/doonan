@@ -19,14 +19,12 @@ module Doonan
         Doonan.logger.level = Logger::DEBUG
         debugger
       end
-      pipeline = Pipeline.new(config)
-      pipeline.realize
+      Doonan::UpdateProject.new(config).perform
     end
 
     desc 'clean', 'remove theme output'
     def clean
-      output_dir = File.join(config.theme_output_root, config.themes_output_prefix)
-      FileUtils.rm_r output_dir if File.exist? output_dir
+      Doonan::CleanProject.new(config).perform
     end
 
     desc 'watch', 'recompile themes on change'

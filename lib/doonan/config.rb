@@ -1,12 +1,13 @@
 module Doonan
   class Config
-    attr_reader :theme_input_root, :theme_input_glob, :themes_root, :theme_output_root, :images_output_root, :themes_output_prefix, :scope_helper
+    attr_reader :theme_input_root, :theme_input_glob, :themes_root, :themes, :theme_output_root, :images_output_root, :themes_output_prefix, :scope_helper
 
-    def initialize(project_root, theme_input_root, theme_input_glob, themes_root, theme_output_root, images_output_root, themes_output_prefix, *helper_modules)
+    def initialize(project_root, theme_input_root, theme_input_glob, themes_root, themes, theme_output_root, images_output_root, themes_output_prefix, *helper_modules)
       project_root ||= '.'
       @theme_input_root = File.expand_path(theme_input_root || 'theme_template', project_root)
       @theme_input_glob = theme_input_glob || '**/*.*'
       @themes_root = File.expand_path(themes_root || 'themes', project_root)
+      @themes = themes || nil
       @theme_output_root = File.expand_path(theme_output_root || 'sass', project_root)
       @images_output_root = File.expand_path(images_output_root || 'images', project_root)
       @themes_output_prefix = themes_output_prefix || 'themes'
@@ -36,7 +37,7 @@ module Doonan
 
       # Build {Doonan::Config} from DSL
       def config
-        Config.new(@project_root, @theme_input_root, @theme_input_glob, @themes_root, @theme_output_root, @images_output_root, @themes_output_prefix, *@scope_helpers)
+        Config.new(@project_root, @theme_input_root, @theme_input_glob, @themes_root, @themes, @theme_output_root, @images_output_root, @themes_output_prefix, *@scope_helpers)
       end
 
       # The project root directory used to expand relative config paths.
@@ -71,6 +72,13 @@ module Doonan
       # @param [String] path to the root of theme definitions.
       def themes_root(path)
         @themes_root = path
+      end
+
+      # Which themes should be processed
+      #
+      # @param [Array] list of theme dir names, relative to themes_root, defaults to nil, which means all themes
+      def themes(theme_list)
+        @themes = theme_list
       end
 
       # The theme output root of the doonan theme pipeline.
