@@ -5,6 +5,7 @@ require 'doonan/assets/static_asset'
 module Doonan
   module Assets
     class ImageInput < StaticAsset
+      ParseError = Class.new(StandardError)
       attr_reader :format, :width, :height
 
       def realize_self
@@ -15,6 +16,8 @@ module Doonan
           @width = image_size.width
           @height = image_size.height
         end
+      rescue
+        raise ParseError.new("Failed to read image #{fullpath}: #{$!}")
       end
 
       def digest

@@ -9,6 +9,7 @@ module Doonan
     # #realize will parse it. If not, the file will just be copied to
     # the theme output.
     class ThemeInput < StaticAsset
+      ParseError = Class.new(StandardError)
       attr_reader :template
 
       def is_template?
@@ -26,6 +27,8 @@ module Doonan
       private
       def parse_template
         TemplateParser.parse(fullpath, read)
+      rescue
+        raise ParseError.new("Failed to parse #{fullpath}: #{$!}")
       end
     end
   end
