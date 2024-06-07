@@ -24,7 +24,7 @@ module Doonan
       end
 
       def get_path(slug_path)
-        slug_path.inject(self) {|images, slug| images.add_images(slug) }
+        slug_path.inject(self) { |images, slug| images.add_images(slug) }
       end
 
       def add_image_info(image_info)
@@ -45,23 +45,27 @@ module Doonan
         @hash[key]
       end
 
-      def respond_to?(symbol, include_private=false)
-        @hash.respond_to?(symbol, include_private) || super(symbol, include_private)
+      def respond_to?(method_name, include_private=false)
+        @hash.respond_to?(method_name, include_private) || super(method_name, include_private)
       end
 
       def method_missing(method_name, *args, &blk)
         @hash.send(method_name, *args, &blk)
       end
 
+      def respond_to_missing?(method_name, *args, &blk)
+        @hash.respond_to?(method_name, *args, &blk)
+      end
+
       def each(&block)
         @image_infos.each(&block)
       end
 
-      def as_json(*args)
+      def as_json(*_args)
         @hash
       end
 
-      def to_json(*args)
+      def to_json(*_args)
         ::MultiJson.encode(as_json)
       end
     end
