@@ -14,12 +14,12 @@ Gem::Specification.new do |gem|
   gem.name          = "doonan"
   gem.require_paths = ["lib"]
   gem.version       = Doonan::VERSION
-  gem.add_dependency('hashie', '~> 1.0')
-  gem.add_dependency('image_size', '~> 1.0')
-  gem.add_dependency('multi_json', '~> 1.0')
-  gem.add_dependency('fssm', '>= 0.2.7')
-  gem.add_dependency('thor')
+  gem.add_dependency('hashie', '~> 5.0')
+  gem.add_dependency('image_size', '~> 3.0')
+  gem.add_dependency('multi_json', '~> 1.15')
+  gem.add_dependency('fssm', '>= 0.2.10')
+  gem.add_dependency('thor', '>= 1.3.1')
 
-  gem.add_development_dependency('compass', '~> 0.11')
+  gem.add_development_dependency('compass', '~> 1.0.3')
   gem.add_development_dependency('rspec')
 end
